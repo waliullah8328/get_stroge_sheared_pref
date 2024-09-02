@@ -6,7 +6,7 @@ import 'package:get_stroge_sheared_pref/splash_screen.dart';
 Future<void> main() async {
 
   // Get Storage
-  await GetStorage.init();
+  //await GetStorage.init();
   runApp(const MyApp());
 }
 

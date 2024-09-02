@@ -7,17 +7,19 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get_stroge_sheared_pref/home_screen.dart';
 import 'package:get_stroge_sheared_pref/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SpashScreen extends StatefulWidget {
   const SpashScreen({super.key});
 
   @override
-  State<SpashScreen> createState() => _SpashScreenState();
+  State<SpashScreen> createState() => SpashScreenState();
 }
 
 
-class _SpashScreenState extends State<SpashScreen> {
-  final storage = GetStorage();
+class SpashScreenState extends State<SpashScreen> {
+  static const String LOGINKEY = "Login";
+  //final storage = GetStorage();
   @override
   void initState() {
     // TODO: implement initState
@@ -34,13 +36,26 @@ class _SpashScreenState extends State<SpashScreen> {
     );
   }
 
-  void gotoNextScreen() {
-    storage.writeIfNull("login", false);
+  Future<void> gotoNextScreen() async {
+    //storage.writeIfNull("login", false);
+    var shearedPref = await SharedPreferences.getInstance();
+    var isLogin = shearedPref.getBool(LOGINKEY);
 
 
     Timer(const Duration(seconds: 3), () {
 
-      storage.read("login")?Get.offAll(()=>const AccountScreen()): Get.offAll(()=>const LoginScreen());
+    if(isLogin != null){
+      if(isLogin){
+        Get.offAll(()=> const AccountScreen());
+      }
+      else{
+        Get.offAll(()=> const LoginScreen());
+      }
+    }
+    else{
+      Get.offAll(()=> const LoginScreen());
+
+    }
 
 
     });

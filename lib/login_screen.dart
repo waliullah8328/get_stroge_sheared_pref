@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get_stroge_sheared_pref/home_screen.dart';
+import 'package:get_stroge_sheared_pref/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -88,13 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               elevation: 6, backgroundColor: Colors.green),
-                          onPressed: () {
+                          onPressed: () async {
                             // Get.to(()=>const HomeScreen());
 
 
-                            storage.write("login", true);
-                            storage.write("username", userName.text);
-                            storage.write("password", password.text);
+                            //storage.write("login", true);
+                           // storage.write("username", userName.text);
+                            //storage.write("password", password.text);
+                            var  shearedPref = await SharedPreferences.getInstance();
+                            shearedPref.setBool(SpashScreenState.LOGINKEY, true);
 
                             Get.offAll(()=>const AccountScreen());
                           },

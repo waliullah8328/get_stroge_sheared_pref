@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get_stroge_sheared_pref/login_screen.dart';
+import 'package:get_stroge_sheared_pref/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -25,11 +27,10 @@ class _HomeScreenState extends State<AccountScreen> {
              Text("User Password: ${storage.read("password")}",style: const TextStyle(fontSize: 21),),
             const SizedBox(height: 20,),
 
-            OutlinedButton(onPressed: (){
+            OutlinedButton(onPressed: () async {
 
-              storage.write("login", false);
-              storage.remove("username");
-              storage.remove("password");
+              var  shearedPref = await SharedPreferences.getInstance();
+              shearedPref.setBool(SpashScreenState.LOGINKEY, false);
               Get.offAll(()=>const LoginScreen());
             }, child: const Text("Logout",style: TextStyle(fontSize: 21),)),
           ],
